@@ -1,5 +1,8 @@
 import React from "react";
 
+import Col from "react-bootstrap/Col";
+import Row from "react-bootstrap/Row";
+
 type MovieRowProps = {
   genres: string[];
   runtime: string;
@@ -9,16 +12,18 @@ type MovieRowProps = {
 
 const MovieRow = ({ title, runtime, genres, score }: MovieRowProps) => {
   return (
-    <div style={{ display: "flex" }}>
-      <div>{title}</div>
-      <div>{runtime}</div>
-      {/* <ul>
-        {genres.map((genre) => (
-          <li>{genre}</li>
-        ))}
-      </ul> */}
-      <div>{score}</div>
-    </div>
+    <Row>
+      <Col>{title}</Col>
+      <Col>{runtime}</Col>
+      <Col>
+          <ul>
+              {genres.map((genre) => (
+                  <li>{genre}</li>
+              ))}
+          </ul>
+      </Col>
+      <Col>{score}</Col>
+    </Row>
   );
 };
 

@@ -1,4 +1,6 @@
 import React, { useEffect, useState } from 'react';
+import Container from 'react-bootstrap/Container';
+
 import moviesPlaceholder from './movies';
 
 import MovieRow from './MovieRow';
@@ -76,9 +78,10 @@ const MovieContainer = () => {
     }
     console.log('my movies', movies);
     return (
-        <div>
+        <Container>
+            <h1>Xplor Movies</h1>
             { formatMovies(movies) }
-        </div>
+        </Container>
     );
 }
 
