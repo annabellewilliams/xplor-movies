@@ -1,11 +1,12 @@
 import React from 'react';
 
-// components
+// Components
 import Badge from 'react-bootstrap/Badge';
 import Card from 'react-bootstrap/Card';
 import Col from 'react-bootstrap/Col';
 
-import {Movie} from '../types';
+// Types
+import type { Movie } from '../types';
 
 type MovieRowProps = Movie;
 

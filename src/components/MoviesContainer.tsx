@@ -24,29 +24,28 @@ const MoviesContainer = ({ movies }: MoviesComponentProps) => {
     // Reducers
     const [filteredMovies, dispatch] = useReducer(movieFiltersReducer, movies);
     const getGenres = () => {
-        // Get unique genres
-        const genres: { [key: string]: boolean } = {};
-        movies.forEach((movie) => {
+        const genres = movies.reduce((genres: { [key: string]: boolean }, movie) => {
             movie.genres.forEach((genre) => {
                 genres[genre] = true;
             })
-        });
+            return genres;
+        }, {});
         return Object.keys(genres).sort();
     }
 
     const getLanguages = () => {
         // Get unique languages
-        const languages: { [key: string]: boolean } = {};
-        movies.forEach((movie) => {
+        const languages = movies.reduce((languages: { [key: string]: boolean }, movie) => {
             movie.languages.forEach((language) => {
                 languages[language] = true;
             });
-        });
+            return languages;
+        }, {});
         return Object.keys(languages).sort();
     }
 
     const getDecades = () => {
-        const decades = movies.reduce((decades: { [key: string]: boolean}, movie) => {
+        const decades = movies.reduce((decades: { [key: string]: boolean }, movie) => {
             decades[`${movie.year.substring(0, 3)}0s`] = true;
             return decades;
         }, {});

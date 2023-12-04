@@ -1,5 +1,5 @@
 // Types
-import { Movie } from '../types';
+import type { Movie } from '../types';
 
 export enum MovieFilterActionType {
     Title = 'title',
