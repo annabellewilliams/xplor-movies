@@ -28,11 +28,12 @@ const MovieComponent = () => {
     const setMovieData = () => {
         // Extract the necessary data from the JSON response
         const movieData = data
-            .map(({title, year, runtime, genre, ratings, poster}) => ({
+            .map(({title, year, runtime, genre, ratings, poster, language }) => ({
                 title,
                 year,
                 runtime,
                 poster,
+                languages: language.split(', '),
                 genres: genre,
                 score: getRottenTomatoesRating(ratings),
             }));

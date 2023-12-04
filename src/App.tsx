@@ -1,12 +1,11 @@
-import React from "react";
+import React from 'react';
 
-import MovieContainer from "./MovieContainer";
+// Components
+import MovieComponent from './components/MovieComponent';
 
 const App = () => {
     return (
-        <div>
-            <MovieContainer />
-        </div>
+        <MovieComponent />
     );
 };
 

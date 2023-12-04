@@ -9,7 +9,7 @@ import {Movie} from '../types';
 
 type MovieRowProps = Movie;
 
-const MovieRow = ({ title, runtime, genres, score, year, poster }: MovieRowProps) => {
+const MovieRow = ({ title, runtime, genres, score, year, poster, languages }: MovieRowProps) => {
     return (
         <Col key={`${title}-${year}`} className="movieCol">
             <Card className="h-100 shadow-sm">
@@ -29,9 +29,29 @@ const MovieRow = ({ title, runtime, genres, score, year, poster }: MovieRowProps
                         <div className="mb-3">
                             <small className="text-secondary">{ runtime }</small>
                         </div>
-                        {genres.map((genre) => (
-                            <Badge pill key={genre} className="m-1 ms-0">{genre}</Badge>
-                        ))}
+                        <div>
+                            {genres.map((genre) => (
+                                <Badge
+                                    pill
+                                    key={genre}
+                                    className="m-1 ms-0 fw-normal border border-primary text-primary bg-light"
+                                >
+                                    {genre}
+                                </Badge>
+                            ))}
+                        </div>
+                        <div>
+                            {languages.map((language) => (
+                                <Badge
+                                    pill
+                                    key={language}
+                                    className="m-1 ms-0 fw-normal border border-secondary text-secondary bg-light"
+                                >
+                                    {language}
+                                </Badge>
+                            ))}
+                        </div>
+
                     </Card.Text>
                     <Card.Footer className="bg-white text-center text-secondary fs-4">
                         <div>{ score }</div>

@@ -9,7 +9,7 @@ import Row from 'react-bootstrap/Row';
 // Enums
 import { MovieFilterActionType } from '../reducers/movieFiltersReducer';
 
-// reducers
+// Reducers
 import movieFiltersReducer from '../reducers/movieFiltersReducer';
 
 // Types
@@ -34,6 +34,25 @@ const MoviesContainer = ({ movies }: MoviesComponentProps) => {
         return Object.keys(genres).sort();
     }
 
+    const getLanguages = () => {
+        // Get unique languages
+        const languages: { [key: string]: boolean } = {};
+        movies.forEach((movie) => {
+            movie.languages.forEach((language) => {
+                languages[language] = true;
+            });
+        });
+        return Object.keys(languages).sort();
+    }
+
+    const getDecades = () => {
+        const decades = movies.reduce((decades: { [key: string]: boolean}, movie) => {
+            decades[`${movie.year.substring(0, 3)}0s`] = true;
+            return decades;
+        }, {});
+        return Object.keys(decades).sort();
+    }
+
     const handleFilterByTitle = (filter: string) => {
         dispatch({
             type: MovieFilterActionType.Title,
@@ -50,10 +69,26 @@ const MoviesContainer = ({ movies }: MoviesComponentProps) => {
         });
     };
 
+    const handleFilterByDecade = (filter: string[]) => {
+        dispatch({
+            type: MovieFilterActionType.Decade,
+            payload: movies,
+            filter,
+        });
+    };
+
+    const handleFilterByLanguage = (filter: string[]) => {
+        dispatch({
+            type: MovieFilterActionType.Language,
+            payload: movies,
+            filter,
+        });
+    };
+
     const formatMovies = () => {
         return [...(filteredMovies.length ? filteredMovies : movies)]
             .filter(({ hidden }) => !hidden)
-            .map(({ title, year, runtime, genres, score, poster }) => {
+            .map(({ title, year, runtime, genres, score, poster, languages }) => {
                 return <MovieRow
                     key={title}
                     genres={genres}
@@ -62,6 +97,7 @@ const MoviesContainer = ({ movies }: MoviesComponentProps) => {
                     title={title}
                     year={year}
                     poster={poster}
+                    languages={languages}
                 />
             });
     };
@@ -69,7 +105,15 @@ const MoviesContainer = ({ movies }: MoviesComponentProps) => {
     return (
         <Container id="container">
             <h1 className="display-1 py-5 text-center">Xplor Movies</h1>
-            <MovieFilters genres={getGenres()} filterByTitle={handleFilterByTitle} filterByGenre={handleFilterByGenre}/>
+            <MovieFilters
+                decades={getDecades()}
+                genres={getGenres()}
+                languages={getLanguages()}
+                filterByDecade={handleFilterByDecade}
+                filterByGenre={handleFilterByGenre}
+                filterByLanguage={handleFilterByLanguage}
+                filterByTitle={handleFilterByTitle}
+            />
             <Row xs={1} sm={2} md={2} lg={3} xl={4} className="g-4 mb-5">
                 { formatMovies() }
             </Row>
