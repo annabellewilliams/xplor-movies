@@ -3,7 +3,10 @@ import Container from 'react-bootstrap/Container';
 
 import moviesPlaceholder from './movies';
 
+// Components
+import MovieFilters from "./MovieFilters";
 import MovieRow from './MovieRow';
+import Row from 'react-bootstrap/Row';
 
 type MovieData = {
     title: string;
@@ -11,6 +14,7 @@ type MovieData = {
     runtime: string;
     genre: string[];
     ratings: Rating[];
+    poster: string;
 }
 
 type Movie = {
@@ -19,6 +23,7 @@ type Movie = {
     runtime: string;
     genres: string[];
     score: string;
+    poster: string;
 }
 
 type Rating = {
@@ -27,7 +32,8 @@ type Rating = {
 }
 
 const MovieContainer = () => {
-    const [loading, setLoading] = useState(true);
+    const [genres, setGenres] = useState<string[]>([]);
+    const [loading, setLoading] = useState<boolean>(true);
     const [movies, setMovies] = useState(moviesPlaceholder);
 
     const getRottenTomatoesRating = (ratings: Rating[]): string => {
@@ -40,15 +46,28 @@ const MovieContainer = () => {
         return 'N/A';
     }
     const formatMovies = (movieData: MovieData[]) => {
-        return movieData.map(({ title, year, runtime, genre, ratings }) => {
+        return movieData.map(({ title, year, runtime, genre, ratings, poster }) => {
             return <MovieRow
+                key={title}
                 genres={genre}
                 runtime={runtime}
                 score={getRottenTomatoesRating(ratings)}
                 title={title}
+                year={year}
+                poster={poster}
             />
         });
     };
+
+    const getGenres = () => {
+        const genres: { [key: string]: boolean } = {};
+        movies.forEach((movie) => {
+            movie.genre.forEach((genre) => {
+                genres[genre] = true;
+            })
+        });
+        return Object.keys(genres).sort();
+    }
 
     useEffect(() => {
         console.log('from useEffect', loading);
@@ -69,18 +88,26 @@ const MovieContainer = () => {
             })
             .finally(() => {
                 setLoading(false);
+                setGenres((state) => [...state, ...getGenres()]); // TODO: placeholder
                 console.log('my movies', loading, movies);
             });
     }, []);
 
+    useEffect(() => {
+        // do something everytime movies array
+    }, movies);
+
     if (loading) {
         return <div>Loading...</div>;
     }
-    console.log('my movies', movies);
+
     return (
-        <Container>
+        <Container id="container">
             <h1>Xplor Movies</h1>
-            { formatMovies(movies) }
+            <MovieFilters genres={genres}/>
+            <Row sm={3} md={4} lg={7} className="g-4">
+                { formatMovies(movies) }
+            </Row>
         </Container>
     );
 }
