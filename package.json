@@ -4,9 +4,7 @@
   "description": "",
   "main": "public/index.html",
   "scripts": {
-    "dev": "react-scripts start",
-    "start": "parcel public/index.html --open",
-    "build": "parcel build public/index.html"
+    "dev": "react-scripts start"
   },
   "dependencies": {
     "@types/bootstrap": "^5.2.10",
